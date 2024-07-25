@@ -170,10 +170,24 @@ To finish, we restart the web server
 sudo systemctl restart nginx.service
 ```
 
+## Install composer
+
+As of version v8.2, it is necessary to have composer installed to install the necessary dependencies.
+
+Once composer is installed, we will have to access the vtiger folder and execute the following command.
+
+```bash
+composer install
+```
+
+Although this installation already has the dependencies updated, it could have some pending updates. For this reason, it is important to execute the indicated command.
+
+## Access to the platform
+
 With all changes completed, you should now be able to access the http:\localhost\kadira service.
 
 The user data defined in the default database are as follows:
 
 User: Admin
 
-Password: Admin\*123
+Password: Admin\*1234
