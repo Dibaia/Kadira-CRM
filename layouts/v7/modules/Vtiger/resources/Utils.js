@@ -9,123 +9,129 @@
 
 var vtUtils = {
 
-        weekDaysArray : {Sunday : 0,Monday : 1, Tuesday : 2, Wednesday : 3,Thursday : 4, Friday : 5, Saturday : 6},
+    weekDaysArray: { Sunday: 0, Monday: 1, Tuesday: 2, Wednesday: 3, Thursday: 4, Friday: 5, Saturday: 6 },
 
     /**
-	 * Function which will show the select2 element for select boxes . This will use select2 library
-	 */
-	showSelect2ElementView : function(selectElement, params) {
-		if(typeof params == 'undefined') {
-			params = {};
-		}
+     * Function which will show the select2 element for select boxes . This will use select2 library
+     */
+    showSelect2ElementView: function (selectElement, params) {
+        if (typeof params == 'undefined') {
+            params = {};
+        }
 
-		var data = selectElement.data();
-		if(data != null) {
-			params = jQuery.extend(data,params);
-		}
-    if(jQuery('#minilistWizardContainer').length){params.maximumSelectionSize=4};
+        var data = selectElement.data();
+        if (data != null) {
+            params = jQuery.extend(data, params);
+        }
+
+        if (jQuery('#minilistWizardContainer').length) {
+            if (params.maximumSelectionSize == 'undefined') {
+                params.maximumSelectionSize = 4
+            }
+        };
+
         // Fix to eliminate flicker happening on list view load
         var ele = jQuery(selectElement);
-        if(ele.hasClass("listSearchContributor")){
+        if (ele.hasClass("listSearchContributor")) {
             ele.closest(".select2_search_div").find(".select2_input_element").remove();
             ele.show();
         }
 
-		// Sort DOM nodes alphabetically in select box.
-		if (typeof params['customSortOptGroup'] != 'undefined' && params['customSortOptGroup']) {
-			jQuery('optgroup', selectElement).each(function(){
-				var optgroup = jQuery(this);
-				var options  = optgroup.children().toArray().sort(function(a, b){
-					var aText = jQuery(a).text();
-					var bText = jQuery(b).text();
-					return aText < bText ? 1 : -1;
-				});
-				jQuery.each(options, function(i, v){
-					optgroup.prepend(v);
-				});
-			});
-			delete params['customSortOptGroup'];
-		}
+        // Sort DOM nodes alphabetically in select box.
+        if (typeof params['customSortOptGroup'] != 'undefined' && params['customSortOptGroup']) {
+            jQuery('optgroup', selectElement).each(function () {
+                var optgroup = jQuery(this);
+                var options = optgroup.children().toArray().sort(function (a, b) {
+                    var aText = jQuery(a).text();
+                    var bText = jQuery(b).text();
+                    return aText < bText ? 1 : -1;
+                });
+                jQuery.each(options, function (i, v) {
+                    optgroup.prepend(v);
+                });
+            });
+            delete params['customSortOptGroup'];
+        }
 
-		//formatSelectionTooBig param is not defined even it has the maximumSelectionSize,
-		//then we should send our custom function for formatSelectionTooBig
-		if(typeof params.maximumSelectionSize != "undefined" && typeof params.formatSelectionTooBig == "undefined") {
-			var limit = params.maximumSelectionSize;
-			//custom function which will return the maximum selection size exceeds message.
-			var formatSelectionExceeds = function(limit) {
-					return app.vtranslate('JS_YOU_CAN_SELECT_ONLY')+' '+limit+' '+app.vtranslate('JS_ITEMS');
-			}
-			params.formatSelectionTooBig = formatSelectionExceeds;
-		}
-        if(selectElement.attr('multiple') != 'undefined' && typeof params.closeOnSelect == 'undefined') {
+        //formatSelectionTooBig param is not defined even it has the maximumSelectionSize,
+        //then we should send our custom function for formatSelectionTooBig
+        if (typeof params.maximumSelectionSize != "undefined" && typeof params.formatSelectionTooBig == "undefined") {
+            var limit = params.maximumSelectionSize;
+            //custom function which will return the maximum selection size exceeds message.
+            var formatSelectionExceeds = function (limit) {
+                return app.vtranslate('JS_YOU_CAN_SELECT_ONLY') + ' ' + limit + ' ' + app.vtranslate('JS_ITEMS');
+            }
+            params.formatSelectionTooBig = formatSelectionExceeds;
+        }
+        if (selectElement.attr('multiple') != 'undefined' && typeof params.closeOnSelect == 'undefined') {
             params.closeOnSelect = false;
-		}
+        }
         selectElement.select2(params)
-					 .on("open", function(e) {
-						 var element = jQuery(e.currentTarget);
-						 var instance = element.data('select2');
-						 instance.dropdown.css('z-index',1000002);
-					 }).on("select2-open", function(e) {
-						 var element = jQuery(e.currentTarget);
-						 var instance = element.data('select2');
-						 instance.dropdown.css('z-index',1000002);
-					 });
+            .on("open", function (e) {
+                var element = jQuery(e.currentTarget);
+                var instance = element.data('select2');
+                instance.dropdown.css('z-index', 1000002);
+            }).on("select2-open", function (e) {
+                var element = jQuery(e.currentTarget);
+                var instance = element.data('select2');
+                instance.dropdown.css('z-index', 1000002);
+            });
         //validator should not validate select2 text inputs
         selectElement.select2("container").find('input.select2-input').addClass('ignore-validation');
-		if(typeof params.maximumSelectionSize != "undefined") {
-			vtUtils.registerChangeEventForMultiSelect(selectElement,params);
-		}
-		return selectElement;
-	},
+        if (typeof params.maximumSelectionSize != "undefined") {
+            vtUtils.registerChangeEventForMultiSelect(selectElement, params);
+        }
+        return selectElement;
+    },
 
     /**
-	 * Function to check the maximum selection size of multiselect and update the results
-	 * @params <object> multiSelectElement
-	 * @params <object> select2 params
-	 */
-	registerChangeEventForMultiSelect :  function(selectElement,params) {
-		if(typeof selectElement == 'undefined') {
-			return;
-		}
+     * Function to check the maximum selection size of multiselect and update the results
+     * @params <object> multiSelectElement
+     * @params <object> select2 params
+     */
+    registerChangeEventForMultiSelect: function (selectElement, params) {
+        if (typeof selectElement == 'undefined') {
+            return;
+        }
 
-		var limit = params.maximumSelectionSize;
-		selectElement.on('change',function(e){
-			var instance = jQuery(e.currentTarget).data('select2');
-			var data = instance.data();
-			if (jQuery.isArray(data) && data.length >= limit ) {
-				instance.updateResults();
+        var limit = params.maximumSelectionSize;
+        selectElement.on('change', function (e) {
+            var instance = jQuery(e.currentTarget).data('select2');
+            var data = instance.data();
+            if (jQuery.isArray(data) && data.length >= limit) {
+                instance.updateResults();
             }
-		});
-	},
+        });
+    },
 
     /**
      * Function register datepicker for dateField elements
      * @param {jQuery} parent
      */
-    registerEventForDateFields : function(parent, params) {
+    registerEventForDateFields: function (parent, params) {
         var element;
-		if (parent.hasClass('dateField') && !parent.hasClass('ignore-ui-registration')) {
+        if (parent.hasClass('dateField') && !parent.hasClass('ignore-ui-registration')) {
             element = parent;
         } else {
             element = jQuery('.dateField:not(ignore-ui-registration)', parent);
         }
 
-		if(typeof params == 'undefined') {
-			params = {};
-		}
+        if (typeof params == 'undefined') {
+            params = {};
+        }
 
         var parentDateElement = element.parent();
-        jQuery('.input-group-addon',parentDateElement).on('click',function(e){
+        jQuery('.input-group-addon', parentDateElement).on('click', function (e) {
             var elem = jQuery(e.currentTarget);
             elem.parent().find('.dateField').focus();
         });
 
         var userDateFormat = app.getDateFormat();
         var calendarType = element.data('calendarType');
-        if(element.length > 0){
-            jQuery(element).each(function(index, Elem){
+        if (element.length > 0) {
+            jQuery(element).each(function (index, Elem) {
                 element = jQuery(Elem);
-                 if(calendarType == "range"){
+                if (calendarType == "range") {
                     //Default first day of the week
                     var defaultFirstDay = jQuery('#start_day').val();
                     element.dateRangePicker({
@@ -133,107 +139,107 @@ var vtUtils = {
                         format: userDateFormat.toUpperCase(),
                         separator: ',',
                         showShortcuts: true,
-                        autoClose : false,
-                        duration : 500
-                    }).on('datepicker-opened', function(e){
-						vtUtils.addMask(jQuery('.date-picker-wrapper:visible'));
-					}).on('datepicker-closed',vtUtils.removeMask);
-                }else{
+                        autoClose: false,
+                        duration: 500
+                    }).on('datepicker-opened', function (e) {
+                        vtUtils.addMask(jQuery('.date-picker-wrapper:visible'));
+                    }).on('datepicker-closed', vtUtils.removeMask);
+                } else {
                     var elementDateFormat = element.data('dateFormat');
-                    if(typeof elementDateFormat !== 'undefined') {
+                    if (typeof elementDateFormat !== 'undefined') {
                         userDateFormat = elementDateFormat;
                     }
-			let thelang= jQuery('body').data('language');
-                  	 thelang=thelang.substring(0, 2);
-					var defaultPickerParams = {
+                    let thelang = jQuery('body').data('language');
+                    thelang = thelang.substring(0, 2);
+                    var defaultPickerParams = {
                         autoclose: true,
                         todayBtn: "linked",
                         format: userDateFormat,
                         todayHighlight: true,
-						clearBtn : true,
-			language :thelang
+                        clearBtn: true,
+                        language: thelang
                     };
-					jQuery.extend(defaultPickerParams, params);
+                    jQuery.extend(defaultPickerParams, params);
                     element.datepicker(defaultPickerParams);
 
-					if(element.hasClass('input-daterange')){
-						element = element.find('input');
-					}
-                }   
+                    if (element.hasClass('input-daterange')) {
+                        element = element.find('input');
+                    }
+                }
             });
         }
     },
 
     /**
-	 * Function which will register time fields
-	 * @params : container - jquery object which contains time fields with class timepicker-default or itself can be time field
-	 *			 registerForAddon - boolean value to register the event for Addon or not
-	 *			 params  - params for the  plugin
-	 * @return : container to support chaining
-	 */
-	registerEventForTimeFields : function(container, registerForAddon, params) {
-		if(typeof container === 'undefined') {
-			container = jQuery('body');
-		}
-		if(typeof registerForAddon === 'undefined'){
-			registerForAddon = true;
-		}
+     * Function which will register time fields
+     * @params : container - jquery object which contains time fields with class timepicker-default or itself can be time field
+     *			 registerForAddon - boolean value to register the event for Addon or not
+     *			 params  - params for the  plugin
+     * @return : container to support chaining
+     */
+    registerEventForTimeFields: function (container, registerForAddon, params) {
+        if (typeof container === 'undefined') {
+            container = jQuery('body');
+        }
+        if (typeof registerForAddon === 'undefined') {
+            registerForAddon = true;
+        }
 
-		container = jQuery(container);
+        container = jQuery(container);
 
-		if (container.hasClass('timepicker-default')) {
+        if (container.hasClass('timepicker-default')) {
             var element = container;
         } else {
             var element = container.find('.timepicker-default');
         }
 
-		if(registerForAddon === true){
-			var parentTimeElem = element.closest('.time');
-			jQuery('.input-group-addon',parentTimeElem).on('click',function(e){
-				var elem = jQuery(e.currentTarget);
-				elem.closest('.time').find('.timepicker-default').focus();
-			});
-		}
+        if (registerForAddon === true) {
+            var parentTimeElem = element.closest('.time');
+            jQuery('.input-group-addon', parentTimeElem).on('click', function (e) {
+                var elem = jQuery(e.currentTarget);
+                elem.closest('.time').find('.timepicker-default').focus();
+            });
+        }
 
-		if(typeof params === 'undefined') {
-			params = {};
-		}
+        if (typeof params === 'undefined') {
+            params = {};
+        }
 
-		var timeFormat = element.data('format');
-		if(timeFormat == '24') {
-			timeFormat = 'H:i';
-		} else {
-			timeFormat = 'h:i A';
-		}
-		var defaultsTimePickerParams = {
-			'timeFormat' : timeFormat,
-			'className'  : 'timePicker'
-		};
-		var params = jQuery.extend(defaultsTimePickerParams, params);
+        var timeFormat = element.data('format');
+        if (timeFormat == '24') {
+            timeFormat = 'H:i';
+        } else {
+            timeFormat = 'h:i A';
+        }
+        var defaultsTimePickerParams = {
+            'timeFormat': timeFormat,
+            'className': 'timePicker'
+        };
+        var params = jQuery.extend(defaultsTimePickerParams, params);
 
-        if(element.length) {
+        if (element.length) {
             element.timepicker(params);
         }
 
-		return container;
-	},
+        return container;
+    },
 
     /**
      * Function to change view of edited elements related to selected Plugin
      * @param {type} elementsContainer
      * @returns {undefined}
      */
-    applyFieldElementsView : function(container){
+    applyFieldElementsView: function (container) {
         this.showSelect2ElementView(container.find('select.select2'));
         this.registerEventForDateFields(container.find('.dateField').not('.ignore-ui-registration'));
         this.registerEventForTimeFields(container.find('.timepicker-default'));
     },
 
-    showQtip : function(element,message,customParams) {
-        if(typeof customParams === 'undefined') {
+    showQtip: function (element, message, customParams) {
+        if (typeof customParams === 'undefined') {
             customParams = {};
         }
-        var qtipParams =  {
+        var qtipParams = {
             content: {
                 text: message
             },
@@ -244,67 +250,67 @@ var vtUtils = {
                 event: 'Vtiger.Qtip.HideMesssage'
             }
         };
-        jQuery.extend(qtipParams,customParams);
+        jQuery.extend(qtipParams, customParams);
 
         element.qtip(qtipParams);
         element.trigger('Vtiger.Qtip.ShowMesssage');
     },
 
-    hideQtip : function(element) {
+    hideQtip: function (element) {
         element.trigger('Vtiger.Qtip.HideMesssage');
     },
 
-	linkifyStr : function(str) {
-		var options = {'TLDs':267};
-		return anchorme.js(str,options);
-	},
+    linkifyStr: function (str) {
+        var options = { 'TLDs': 267 };
+        return anchorme.js(str, options);
+    },
 
-	htmlSubstring : function(content, maxlength) {
-		var m, r = /<([^>\s]*)[^>]*>/g,
-			stack = [],
-			lasti = 0,
-			result = '';
+    htmlSubstring: function (content, maxlength) {
+        var m, r = /<([^>\s]*)[^>]*>/g,
+            stack = [],
+            lasti = 0,
+            result = '';
 
-		//for each tag, while we don't have enough characters
-		while ((m = r.exec(content)) && maxlength) {
-			//get the text substring between the last tag and this one
-			var temp = content.substring(lasti, m.index).substr(0, maxlength);
-			//append to the result and count the number of characters added
-			result += temp;
-			maxlength -= temp.length;
-			lasti = r.lastIndex;
+        //for each tag, while we don't have enough characters
+        while ((m = r.exec(content)) && maxlength) {
+            //get the text substring between the last tag and this one
+            var temp = content.substring(lasti, m.index).substr(0, maxlength);
+            //append to the result and count the number of characters added
+            result += temp;
+            maxlength -= temp.length;
+            lasti = r.lastIndex;
 
-			if (content) {
-				result += m[0];
-				if (m[1].indexOf('/') === 0) {
-					//if this is a closing tag, then pop the stack (does not account for bad html)
-					stack.pop();
-				} else if (m[1].lastIndexOf('/') !== m[1].length - 1) {
-					//if this is not a self closing tag then push it in the stack
-					stack.push(m[1]);
-				}
-			}
-		}
+            if (content) {
+                result += m[0];
+                if (m[1].indexOf('/') === 0) {
+                    //if this is a closing tag, then pop the stack (does not account for bad html)
+                    stack.pop();
+                } else if (m[1].lastIndexOf('/') !== m[1].length - 1) {
+                    //if this is not a self closing tag then push it in the stack
+                    stack.push(m[1]);
+                }
+            }
+        }
 
-		//add the remainder of the string, if needed (there are no more tags in here)
-		result += content.substr(lasti, maxlength);
+        //add the remainder of the string, if needed (there are no more tags in here)
+        result += content.substr(lasti, maxlength);
 
-		//fix the unclosed tags
-		while (stack.length) {
-			var unclosedtag = stack.pop();
-			if(jQuery.inArray(unclosedtag,['br']) == -1){
-				result += '</' + unclosedtag + '>';
-			}
-		}
-		return result;
-	},
+        //fix the unclosed tags
+        while (stack.length) {
+            var unclosedtag = stack.pop();
+            if (jQuery.inArray(unclosedtag, ['br']) == -1) {
+                result += '</' + unclosedtag + '>';
+            }
+        }
+        return result;
+    },
 
-    showValidationMessage : function(element,message,params) {
-        if(element.hasClass('select2')) {
+    showValidationMessage: function (element, message, params) {
+        if (element.hasClass('select2')) {
             element = app.helper.getSelect2FromSelect(element);
         }
 
-        if(typeof params === 'undefined') {
+        if (typeof params === 'undefined') {
             params = {};
         }
 
@@ -318,13 +324,13 @@ var vtUtils = {
             }
         };
 
-        jQuery.extend(validationTooltipParams,params);
-        this.showQtip(element,message,validationTooltipParams);
+        jQuery.extend(validationTooltipParams, params);
+        this.showQtip(element, message, validationTooltipParams);
         element.addClass('input-error');
     },
 
-    hideValidationMessage : function(element) {
-        if(element.hasClass('select2')) {
+    hideValidationMessage: function (element) {
+        if (element.hasClass('select2')) {
             element = app.helper.getSelect2FromSelect(element);
         }
         //should hide even message displyed by vtValidate
@@ -333,47 +339,47 @@ var vtUtils = {
         element.removeClass('input-error');
     },
 
-    getMomentDateFormat : function() {
+    getMomentDateFormat: function () {
         var dateFormat = app.getDateFormat();
         return dateFormat.toUpperCase();
     },
 
-    getMomentTimeFormat : function() {
+    getMomentTimeFormat: function () {
         var hourFormat = app.getHourFormat();
         var timeFormat = 'HH:mm';
-        if(hourFormat === 12) {
+        if (hourFormat === 12) {
             timeFormat = 'hh:mm A';
         }
         return timeFormat;
     },
 
-    getMomentCompatibleDateTimeFormat : function() {
+    getMomentCompatibleDateTimeFormat: function () {
         return this.getMomentDateFormat() + ' ' + this.getMomentTimeFormat();
     },
 
-    convertFileSizeInToDisplayFormat : function(fileSizeInBytes) {
-		 var i = -1;
-		var byteUnits = [' kB', ' MB', ' GB', ' TB', 'PB', 'EB', 'ZB', 'YB'];
-		do {
-			fileSizeInBytes = fileSizeInBytes / 1024;
-			i++;
-		} while (fileSizeInBytes > 1024);
+    convertFileSizeInToDisplayFormat: function (fileSizeInBytes) {
+        var i = -1;
+        var byteUnits = [' kB', ' MB', ' GB', ' TB', 'PB', 'EB', 'ZB', 'YB'];
+        do {
+            fileSizeInBytes = fileSizeInBytes / 1024;
+            i++;
+        } while (fileSizeInBytes > 1024);
 
-		return Math.max(fileSizeInBytes, 0.1).toFixed(1) + byteUnits[i];
+        return Math.max(fileSizeInBytes, 0.1).toFixed(1) + byteUnits[i];
 
-	},
+    },
 
-    enableTooltips : function(options) {
-		if(typeof options == 'undefined') {
-			options = {};
-		}
+    enableTooltips: function (options) {
+        if (typeof options == 'undefined') {
+            options = {};
+        }
 
         jQuery(function () {
             jQuery('[data-toggle="tooltip"]').tooltip(options);
         });
     },
-    
-    stripTags : function(string,allowed) {
+
+    stripTags: function (string, allowed) {
         //https://stackoverflow.com/questions/5601903/jquery-almost-equivalent-of-phps-strip-tags#answer-46483672
         allowed = (((allowed || '') + '').toLowerCase().match(/<[a-z][a-z0-9]*>/g) || []).join('');
         var tags = /<\/?([a-z][a-z0-9]*)\b[^>]*>/gi;
@@ -381,36 +387,36 @@ var vtUtils = {
             return allowed.indexOf('<' + $1.toLowerCase() + '>') > -1 ? $0 : '';
         });
     },
-	
+
     addMask: function (container) {
-            if (container.length && jQuery('#vt-mask').length == 0) {
-                    var mask = '<div id="vt-mask" class="vt-page-mask" ></div>'
-                    container.before(mask);
-            }
+        if (container.length && jQuery('#vt-mask').length == 0) {
+            var mask = '<div id="vt-mask" class="vt-page-mask" ></div>'
+            container.before(mask);
+        }
     },
 
     removeMask: function () {
-            if (jQuery('#vt-mask').length) {
-                    jQuery('#vt-mask').remove();
-            }
+        if (jQuery('#vt-mask').length) {
+            jQuery('#vt-mask').remove();
+        }
     },
-        
-    isPasswordStrong : function(password) {
-            /*
-            * ^					The password string will start this way
-            * (?=.*[a-z])			The string must contain at least 1 lowercase alphabetical character
-            * (?=.*[A-Z])			The string must contain at least 1 uppercase alphabetical character
-            * (?=.*[0-9])			The string must contain at least 1 numeric character
-            * (?=.*[!@#\$%\^&\*])	The string must contain at least one special character, but we are escaping reserved RegEx characters to avoid conflict
-            * (?=.{8,})			The string must be eight characters or longer
-            */
-           var password_regex = jQuery('[name="pwd_regex"]').val();
-           if((typeof password_regex != 'undefined') && (password_regex != '')){
-                var strongPasswordRegex = new RegExp(password_regex);
-                var isStrong = strongPasswordRegex.test(password)? true : false; 
-                return isStrong;
-           }
-	   // If password regex is not set - consider it as strong.
-           return true;
+
+    isPasswordStrong: function (password) {
+        /*
+        * ^					The password string will start this way
+        * (?=.*[a-z])			The string must contain at least 1 lowercase alphabetical character
+        * (?=.*[A-Z])			The string must contain at least 1 uppercase alphabetical character
+        * (?=.*[0-9])			The string must contain at least 1 numeric character
+        * (?=.*[!@#\$%\^&\*])	The string must contain at least one special character, but we are escaping reserved RegEx characters to avoid conflict
+        * (?=.{8,})			The string must be eight characters or longer
+        */
+        var password_regex = jQuery('[name="pwd_regex"]').val();
+        if ((typeof password_regex != 'undefined') && (password_regex != '')) {
+            var strongPasswordRegex = new RegExp(password_regex);
+            var isStrong = strongPasswordRegex.test(password) ? true : false;
+            return isStrong;
+        }
+        // If password regex is not set - consider it as strong.
+        return true;
     },
 }
