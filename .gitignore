@@ -1,3 +1,11 @@
 vendor/*
 !vendor/.htaccess
-.vscode/*
+test/templates_c/
+test/templates_c/v7
+user_privileges/
+logs/
+storage/
+portal/writeable
+.vscode
+config.inc.php
+config.inc.php.remote
