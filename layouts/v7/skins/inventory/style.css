@@ -2259,6 +2259,14 @@ th {
 .summaryWidgetContainer .commentContainer {
   background: white;
   border-color: #eee;
+  border-width: 0px;  
+  padding-top: 10px;
+  padding-bottom: 0px;
+}
+.summaryWidgetContainer .fileUploadContainer {
+	padding-top: 10px; 
+	padding-bottom: 0px; 
+	border-width: 0px;  
 }
 .summaryWidgetContainer .commentContainertextarea {
   width: 100%;
