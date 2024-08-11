@@ -26,7 +26,7 @@
 				</div>
 				<div class='row'>
 					<div class="col-xs-6 pull-right paddingTop10 paddingLeft0">
-						<div style="text-align: right;">
+						<div class="commentContainer text-right">
 							{if in_array($MODULE_NAME, $PRIVATE_COMMENT_MODULES)}
 								<div class="" style="margin: 7px 0;">
 									<label>
@@ -35,7 +35,7 @@
 									<i class="fa fa-question-circle cursorPointer" data-toggle="tooltip" data-placement="top" data-original-title="{vtranslate('LBL_INTERNAL_COMMENT_INFO')}"></i>&nbsp;&nbsp;
 								</div>
 							{/if}
-							<button class="btn btn-success btn-sm detailViewSaveComment" type="button" data-mode="add">{vtranslate('LBL_POST', $MODULE_NAME)}</button>
+							<button class="btn btn-success btn-lg detailViewSaveComment" type="button" data-mode="add">{vtranslate('LBL_POST', $MODULE_NAME)}</button>
 						</div>
 					</div>
 					{if $FIELD_MODEL->getProfileReadWritePermission()}
@@ -227,7 +227,7 @@
 					</label>
 				</div>
 			{/if}
-			<button class="btn btn-success btn-sm detailViewSaveComment" type="button" data-mode="add">{vtranslate('LBL_POST', $MODULE_NAME)}</button>
+			<button class="btn btn-success btn-lg detailViewSaveComment" type="button" data-mode="add">{vtranslate('LBL_POST', $MODULE_NAME)}</button>
 			<a href="javascript:void(0);" class="cursorPointer closeCommentBlock cancelLink" type="reset">{vtranslate('LBL_CANCEL', $MODULE_NAME)}</a>
 		</div>
 	</div>
@@ -244,7 +244,7 @@
 		<input type="hidden" name="is_private">
 		<div class="row" style="padding-bottom: 10px;">
 			<div class="pull-right">
-				<button class="btn btn-success btn-sm detailViewSaveComment" type="button" data-mode="edit">{vtranslate('LBL_POST', $MODULE_NAME)}</button>
+				<button class="btn btn-success btn-lg detailViewSaveComment" type="button" data-mode="edit">{vtranslate('LBL_POST', $MODULE_NAME)}</button>
 				<a href="javascript:void(0);" class="cursorPointer closeCommentBlock cancelLink" type="reset">{vtranslate('LBL_CANCEL', $MODULE_NAME)}</a>
 			</div>
 		</div>

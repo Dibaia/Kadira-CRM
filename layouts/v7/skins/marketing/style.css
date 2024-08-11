@@ -799,6 +799,7 @@ a.menu-item:hover {
   height: inherit;
 }
 .viewContent .content-area {
+  padding-top: 5px;
   padding-left: 3%;
 }
 .viewContent .content-area.full-width {
@@ -1350,7 +1351,7 @@ ul.unstyled {
   margin-right: 10px;
 }
 .btn {
-  border-radius: 0px;
+  border-radius: 5px;
   font-weight: 100;
   cursor: pointer;
   border-width: thin;
@@ -2258,6 +2259,14 @@ th {
 .summaryWidgetContainer .commentContainer {
   background: white;
   border-color: #eee;
+  border-width: 0px;  
+  padding-top: 10px;
+  padding-bottom: 0px;
+}
+.summaryWidgetContainer .fileUploadContainer {
+	padding-top: 10px; 
+	padding-bottom: 0px; 
+	border-width: 0px;  
 }
 .summaryWidgetContainer .commentContainertextarea {
   width: 100%;
@@ -2422,10 +2431,10 @@ th {
   border: none;
   border-left: 1px solid #ddd;
 }
-.input-group.inputElement .input-group-addon-right {
-  border: none;
-  border-left: 0px;
-  border-right: 1px solid #ddd;
+.input-group.inputElement .input-group-addon-right{
+    border:none;
+    border-left:0px;
+    border-right:1px solid #ddd;
 }
 .fieldBlockContainer textarea.inputElement {
   height: auto;
@@ -2516,7 +2525,7 @@ th {
   height: 100vh;
 }
 .p-xy-8 {
-  padding: 8px !important;
+    padding: 8px !important;
 }
 #advanceSearchHolder {
   max-height: 0px;
@@ -5091,8 +5100,8 @@ hr {
 .related-tabs.row .nav > li {
   padding: 0 10px;
   margin: 0 2px 3px 2px;
-  width: 90px;
   text-align: center;
+
 }
 .massEditTabs.nav > li {
   padding: 0 10px;
@@ -5595,8 +5604,8 @@ TN-34230 .row .nav > li > a:hover {
 .width75per {
   width: 75%;
 }
-.width100per {
-  width: 100% !important;
+.width100per{
+    width: 100% !important;
 }
 #_mbox_pwd {
   padding: 3px 8px;
@@ -6129,8 +6138,8 @@ div.tooltip-inner {
 }
 #detailView .detailview-table .input-group.editElement,
 .calendar-timezone .input-group.editElement {
-  width: auto;
-  display: inline-flex;
+    width: auto;
+    display: inline-flex;
 }
 .summaryViewEntries .input-group.editElement {
   width: auto;
@@ -6151,8 +6160,8 @@ div.tooltip-inner {
 .editViewContents .fieldValue .referencefield-wrapper {
   display: inline-block;
 }
-.fieldValueWidth80 {
-  width: 80% !important;
+.fieldValueWidth80{
+    width:80% !important;
 }
 .input-group-addon {
   line-height: inherit;
@@ -6170,8 +6179,6 @@ div.tooltip-inner {
 .referencefield-wrapper .input-group {
   width: 100%;
   max-width: 325px;
-  min-width: unset;
-  /* of .input-group above */
 }
 .summaryViewEntries .inputElement.form-control,
 .detailview-table .inputElement.form-control {
@@ -6228,22 +6235,6 @@ div.tooltip-inner {
 #lineItemTab .lineItemRow .listPrice {
   float: left;
   margin-right: 5px;
-  width: 75%;
-  /* make space for price-book */
-}
-/* Fix Text area in Line Items */
-table#lineItemTab textarea.lineItemCommentBox {
-  width: 90%;
-  /* Line-height is 1.4 so this is an approximation of 4 lines high */
-  min-height: 5.6em;
-}
-/* Change width of columns in LineItems (1) drag-handler (3) quanity (4) price */
-table#lineItemTab tbody tr > :nth-child(1) {
-  width: 5%;
-}
-table#lineItemTab tbody tr > :nth-child(3),
-table#lineItemTab tbody tr > :nth-child(4) {
-  width: 10%;
 }
 /***** Oursites Changes *****/
 .portal-table .table-actions {
@@ -7756,38 +7747,9 @@ body .fc {
     padding: 30px;
   }
 }
-#vt-mask {
-  border: 0;
-  margin: 0;
-  padding: 0;
-  position: fixed;
-  left: 0;
-  top: 0;
-  min-height: 100%;
-  min-width: 100%;
-  height: auto;
-  width: auto;
-  opacity: 0;
-  z-index: 10001;
-  background-color: #fff;
-  position: relative;
-  display: inline-flex;
-}
-.fieldBlockContainer .inputElement.textAreaElement {
-  max-width: none;
-  width: 100%;
-}
-.detailview-table textarea.inputElement.form-control {
-  max-width: none;
-  width: 90%;
-}
 .modules-menu ul li.active a {
   border-left: 3px solid #EF5E29;
   opacity: 1;
-}
-#vt-mask {
-  position: relative;
-  display: inline-flex;
 }
 .nav .nav-stacks .cp-nav-header-wrapper > li.disabled > a:hover {
   background-color: #fff;
@@ -8051,3 +8013,29 @@ a.btnReport:hover {
   height: 450px;
   overflow: auto;
 }
+#vt-mask{
+    border: 0;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    display: inline-flex;
+    left: 0;
+    top: 0;
+    min-height: 100%;
+    min-width: 100%;
+    height: auto;
+    width: auto;
+    opacity: 0;
+    z-index: 10001;
+    background-color: #fff;
+ }
+ .fieldBlockContainer .inputElement.textAreaElement {
+    max-width:none;
+    width: 100%;
+}
+
+.detailview-table textarea.inputElement.form-control {
+    max-width:none;
+    width: 90%;
+}
+/*# sourceMappingURL=style.css.map */

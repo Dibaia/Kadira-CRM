@@ -11,15 +11,12 @@
 {strip}
 	<style>
 		body {
-			background: url(layouts/v7/resources/Images/login-background.jpg);
-			background-position: center;
-			background-size: cover;
 			width: 100%;
-			background-repeat: no-repeat;
+			background-color: #f0f1f6;
 		}
 		hr {
 			margin-top: 15px;
-			background-color: #7C7C7C;
+			background-color: #f0f1f6;
 			height: 2px;
 			border-width: 0;
 		}
@@ -62,15 +59,13 @@
 		input:focus ~ .bar:before, input:focus ~ .bar:after {
 			width: 50%;
 		}
-		select {
-			font-size: 16px;
-		}
 		#page {
 			padding-top: 86px;
 		}
 		.widgetHeight {
-			height: 460px;
+			height: 440px;
 			margin-top: 20px !important;
+			margin-bottom: 20px !important;
 		}
 		.loginDiv {
 			max-width: 380px;
@@ -92,8 +87,8 @@
 		.user-logo {
 			height: 110px;
 			margin: 0 auto;
-			padding-top: 40px;
 			padding-bottom: 20px;
+			padding-top: 20px;
 		}
 		.blockLink {
 			border: 1px solid #303030;
@@ -169,7 +164,8 @@
 			outline: 0;
 		}
 		.buttonBlue {
-			background-image: linear-gradient(to bottom, #35aa47 0px, #35aa47 100%)
+			border-radius: 4px;
+			background-image: linear-gradient(to bottom, #175388 0px, #175388 100%)
 		}
 		.ripples {
 			position: absolute;
@@ -180,9 +176,12 @@
 			overflow: hidden;
 			background: transparent;
 		}
-                .mCSB_container{
-                    height: inherit;
-                }
+        .mCSB_container{
+        	height: inherit;
+        }
+
+
+
 
 		//Animations
 		@keyframes inputHighlighter {
@@ -211,7 +210,7 @@
 
 	<span class="app-nav"></span>
 	<div class="container-fluid loginPageContainer">
-		<div class="col-lg-5 col-md-12 col-sm-12 col-xs-12">
+		<div class="col-lg-4 col-lg-offset-4">
 			<div class="loginDiv widgetHeight">
 				<img class="img-responsive user-logo" src="layouts/v7/resources/Images/vtiger.png">
 				<div>
@@ -233,18 +232,7 @@
 							<span class="bar"></span>
 							<label>Password</label>
 						</div>
-						{assign var="CUSTOM_SKINS" value=Vtiger_Theme::getAllSkins()}
-						{if !empty($CUSTOM_SKINS)}
-						<div class="group" style="margin-bottom: 10px;">
-							<select id="skin" name="skin" placeholder="Skin" style="text-transform: capitalize; width:100%;height:30px;">
-								<option value="">Default Skin</option>
-								{foreach item=CUSTOM_SKIN from=$CUSTOM_SKINS}
-								<option value="{$CUSTOM_SKIN}">{$CUSTOM_SKIN}</option>
-								{/foreach}
-							</select>
-						</div>
-						{/if}
-					<div class="group">
+						<div class="group">
 							<button type="submit" class="button buttonBlue">Sign in</button><br>
 							<a class="forgotPasswordLink" style="color: #15c;">forgot password?</a>
 						</div>
@@ -272,63 +260,9 @@
 			</div>
 		</div>
 
-		<div class="col-lg-1 hidden-xs hidden-sm hidden-md">
-			<div class="separatorDiv"></div>
+		<div class="col-lg-1">
 		</div>
-
-		<div class="col-lg-5 hidden-xs hidden-sm hidden-md">
-			<div class="marketingDiv widgetHeight">
-				{if $JSON_DATA}
-					<div class="scrollContainer">
-						{assign var=ALL_BLOCKS_COUNT value=0}
-						{foreach key=BLOCK_NAME item=BLOCKS_DATA from=$JSON_DATA}
-							{if $BLOCKS_DATA}
-								<div>
-									<h4>{$BLOCKS_DATA[0].heading}</h4>
-									<ul class="bxslider">
-										{foreach item=BLOCK_DATA from=$BLOCKS_DATA}
-											<li class="slide">
-												{assign var=ALL_BLOCKS_COUNT value=$ALL_BLOCKS_COUNT+1}
-												{if $BLOCK_DATA.image}
-													<div class="col-lg-3" style="min-height: 100px;"><img src="{$BLOCK_DATA.image}" style="width: 100%;height: 100%;margin-top: 10px;"/></div>
-													<div class="col-lg-9">
-												{else}
-													<div class="col-lg-12">
-												{/if}
-												<div title="{$BLOCK_DATA.summary}">
-													<h3><b>{$BLOCK_DATA.displayTitle}</b></h3>
-													{$BLOCK_DATA.displaySummary}<br><br>
-													<a href="{$BLOCK_DATA.url}" target="_blank"><u>{$BLOCK_DATA.urlalt}</u></a>
-												</div>
-												{if $BLOCK_DATA.image}
-													</div>
-												{else}
-													</div>
-												{/if}
-											</li>
-										{/foreach}
-									</ul>
-								</div>
-								{if $ALL_BLOCKS_COUNT neq $DATA_COUNT}
-									<br>
-									<hr>
-								{/if}
-							{/if}
-						{/foreach}
-					</div>
-				{else}
-					<div class="inActiveImgDiv">
-						<div>
-							<h4>Get more out of Vtiger with extensions from</h4>
-							<h4>Vtiger Marketplace</h4>
-						</div>
-						<a href="https://marketplace.vtiger.com/app/listings" target="_blank" style="margin-right: 25px;"><img src="layouts/v7/resources/Images/extensionstore.png" style="width: 85%; height: 100%; margin-top: 25px;"/></a>
-					</div>
-				{/if}
-				</div>
-			</div>
-		</div>
-
+		
 		<script>
 			jQuery(document).ready(function () {
 				var validationMessage = jQuery('#validationMessage');
