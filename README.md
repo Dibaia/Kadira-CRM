@@ -1,14 +1,13 @@
-![image](https://user-images.githubusercontent.com/89658833/189480151-42ee105c-143b-4697-9cdb-24d54a793279.png)
-
 <div align="center">
-  <h1>Kadira CRM / ERP</h1>
+  <h1>VTigerCRM customized by Dibaia</h1>
 </div>
 <div align="center">
   <strong>The perfect solution for small and medium-sized companies</strong>
 </div>
 
 <div align="center">
-The Kadria project was born from a fork of VTiger 8.2. The aim of this project is to help companies that need a solution with well-defined business rules.
+This repository is based on the version of VTigerCRM v8.2. 
+The aim of this project is to help companies that need a solution with well-defined business rules.
 </div>
 
 <br>
@@ -82,7 +81,7 @@ sudo apt update
 sudo apt install php8.2-fpm php8.2-common php8.2-mbstring php8.2-xmlrpc php8.2-soap php8.2-gd php8.2-xml php8.2-intl php8.2-mysql php8.2-cli php8.2-mcrypt php8.2-ldap php8.2-zip php8.2-curl
 ```
 
-Editing php.ini file to define the correct values to work with Kadira
+Editing php.ini file to define the correct values to work with vtigercrm
 
 ```bash
 sudo nano /etc/php/8.2/fpm/php.ini
@@ -102,9 +101,9 @@ sudo nano /etc/php/8.2/fpm/php.ini
 ```sql
 sudo mysql -u root -p
 
-CREATE DATABASE kadira;
-CREATE USER 'kadirauser'@'localhost' IDENTIFIED BY 'new_password_here';
-GRANT ALL ON kadira.* TO 'kadirauser'@'localhost' IDENTIFIED BY 'user_password_here' WITH GRANT OPTION;
+CREATE DATABASE vtigercrm;
+CREATE USER 'vtuser'@'localhost' IDENTIFIED BY 'new_password_here';
+GRANT ALL ON vtigercrm.* TO 'vtuser'@'localhost' IDENTIFIED BY 'user_password_here' WITH GRANT OPTION;
 
 FLUSH PRIVILEGES;
 EXIT;
@@ -113,34 +112,34 @@ EXIT;
 We import the database of the base project
 
 ```sql
-mysql -u username -p kadira < /var/www/html/kadira/schema/kadira.sql
+mysql -u username -p vtuser < /var/www/html/vtigercrm/schema/vtigercrm82.sql
 ```
 
-## Download and install the project Kadira
+## Download and install the project VTigerCRM
 
 ```bash
 cd /var/www/html/
-git clone https://github.com/Dibaia/kadiracrm.git
+git clone https://github.com/Dibaia/VTigerCRM-members.git
 ```
 
 We apply permissions necessary for the web server to be able to write to the directory
 
 ```bash
-sudo chown -R www-data:www-data /var/www/html/kadira/
-sudo chmod -R 755 /var/www/html/kadira/
+sudo chown -R www-data:www-data /var/www/html/vtigercrm/
+sudo chmod -R 755 /var/www/html/vtigercrm/
 ```
 
 ## Web server configuration
 
 ```bash
-sudo nano /etc/nginx/sites-available/kadira
+sudo nano /etc/nginx/sites-available/vtigercrm
 ```
 
 ```
 server {
     listen 80;
     listen [::]:80;
-    root /var/www/html/kadira;
+    root /var/www/html/vtigercrm;
     index  index.php index.html index.htm;
 
      client_max_body_size 100M;
@@ -161,7 +160,7 @@ server {
 Once the changes have been applied, we activate the configuration on the nginx web server.
 
 ```bash
-sudo ln -s /etc/nginx/sites-available/kadira/etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/vtigercrm/etc/nginx/sites-enabled/
 ```
 
 To finish, we restart the web server
@@ -184,7 +183,7 @@ Although this installation already has the dependencies updated, it could have s
 
 ## Access to the platform
 
-With all changes completed, you should now be able to access the http:\localhost\kadira service.
+With all changes completed, you should now be able to access the http:\localhost\vtigercrm service.
 
 The user data defined in the default database are as follows:
 
